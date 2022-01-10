@@ -1,14 +1,11 @@
-package com.example.demowebflux.controller;
+package com.example.demowebmvc.controller;
 
-import com.example.demowebflux.domain.Customer;
-import com.example.demowebflux.repository.CustomerRepository;
+import com.example.demowebmvc.domain.Customer;
+import com.example.demowebmvc.repository.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @Slf4j
 @RequestMapping("/customers")
@@ -21,14 +18,8 @@ public class CustomerController {
 
         this.customerRepository = customerRepository;
     }
-
-    @GetMapping("/{id}")
-    private Mono<Customer> getCustomerById(@PathVariable int id) {
-        return customerRepository.findById(id);
-    }
-
     @GetMapping
-    private Flux<Customer> getCustomers() throws InterruptedException {
+    private Iterable<Customer> getCustomers() throws InterruptedException {
         Thread.sleep(1000);
         return customerRepository.findAll();
     }
