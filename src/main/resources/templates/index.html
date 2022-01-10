@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+   <table>
+       <thead>
+       <tr>
+           <th>ID</th>
+           <th>FirstName</th>
+           <th>LastName</th>
+       </tr>
+       </thead>
+       <tbody>
+       <tr v-for="item in list">
+           <td>{{ item.id }}</td>
+           <td>{{ item.firstName }}</td>
+           <td>{{ item.lastName }}</td>
+       </tr>
+       </tbody>
+   </table>
+</div>
+</body>
+<script>
+    const myApp = {
+        data() {
+            return {
+                counter: 0,
+                list: [],
+            }
+        },
+
+        methods: {
+            queryCustomers: function() {
+                let cxt = this;
+                axios.get('/customers')
+                    .then(function (resp) {
+                        console.log(resp);
+                        cxt.list = resp.data;
+                    });
+            }
+        },
+        beforeMount() {
+            this.queryCustomers()
+        },
+    }
+    Vue.createApp(myApp).mount('#app')
+</script>
+</html>
