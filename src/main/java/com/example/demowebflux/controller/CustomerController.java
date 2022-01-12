@@ -2,6 +2,7 @@ package com.example.demowebflux.controller;
 
 import com.example.demowebflux.domain.Customer;
 import com.example.demowebflux.repository.CustomerRepository;
+import com.example.demowebflux.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +17,11 @@ import reactor.core.publisher.Mono;
 public class CustomerController {
 
     private final CustomerRepository customerRepository;
-
-    public CustomerController(CustomerRepository customerRepository) {
+    private final CustomerService customerService;
+    public CustomerController(CustomerRepository customerRepository, CustomerService customerService) {
 
         this.customerRepository = customerRepository;
+        this.customerService = customerService;
     }
 
     @GetMapping("/{id}")
@@ -28,8 +30,11 @@ public class CustomerController {
     }
 
     @GetMapping
-    private Flux<Customer> getCustomers() throws InterruptedException {
-        Thread.sleep(1000);
+    private Flux<Customer> getCustomers() {
         return customerRepository.findAll();
+    }
+    @GetMapping("/perform")
+    private Flux<Customer> fluxPerformTest(){
+        return customerService.performTest();
     }
 }

@@ -1,15 +1,16 @@
 package com.example.demowebmvc.domain;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-@NoArgsConstructor
-@Data
-public class Customer {
+import java.util.Date;
 
+@Data
+public class CustomerHist {
     @Id
-    private int id;
+    private Integer gid;
+    private Date datetime;
+    private Integer customerId;
     private String firstName;
     private String lastName;
 }
